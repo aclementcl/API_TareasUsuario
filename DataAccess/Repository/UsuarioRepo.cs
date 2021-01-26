@@ -13,8 +13,6 @@ namespace DataAccess.Repository
         IEnumerable<Usuario> Get();
         Task<Usuario> Get(int id);
         Task<bool> Add(Usuario usuario);
-        void Update(Usuario usuario);
-        Task<bool> Delete(int id);
         Task<bool> Login(string userName, string password);
     }
     public class UsuarioRepo: IUsuarioRepo
@@ -43,7 +41,13 @@ namespace DataAccess.Repository
 
         public IEnumerable<Usuario> Get()
         {
-            return _context.Usuario;
+            try
+            {
+                return _context.Usuario;
+            }catch(Exception e)
+            {
+                return null;
+            }
         }
 
         public async Task<Usuario> Get(int id)
@@ -60,28 +64,6 @@ namespace DataAccess.Repository
             }
         }
         
-
-        public void Update(Usuario usuario)
-        {
-            _context.Usuario.Update(usuario);
-            _context.SaveChanges();
-        }
-
-        public async Task<bool> Delete(int id)
-        {
-            try
-            {
-                //var entity = await _context.Usuario.FindAsync(id);
-                var entity = Get(id);
-                //_context.Usuario.Remove(entity);
-                return true;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
-
-        }
 
         public async Task<bool> Login(string userName, string password)
         {

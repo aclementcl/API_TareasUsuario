@@ -53,13 +53,12 @@ namespace Application.Services
 
                 listTarea.Add(tarea);
             }
-            //listTarea = (List<Tarea>)listTarea.Select(p => new { p.TaskName, p.Description, p.State });
             return listTarea;
         }
 
         public async Task Update(Tarea tarea)
         {
-            //_usuarioRepo.Update(UsuarioModelMapper.MapToData(tarea));
+            _tareaRepo.Update(TareaModelMapper.MapToData(tarea));
         }
 
 

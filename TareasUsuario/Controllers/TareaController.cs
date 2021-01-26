@@ -23,14 +23,21 @@ namespace WebAPI.Controllers
         }
         // GET: api/<TareaController>
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult GetTaks()
         {
             var entity = _tareaService.Get().Select(p => new { p.TaskName, p.Description, p.State });
-            return Ok(entity);
+            if (entity.Count() > 0)
+            {
+                return Ok(entity);
+            }
+            else
+            {
+                return NotFound("No existen tareas en BD");
+            }
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] TareaViewModel request)
+        public async Task<IActionResult> AddTask([FromBody] TareaViewModel request)
         {
             Tarea tarea = new Tarea
             {
@@ -55,9 +62,23 @@ namespace WebAPI.Controllers
         }
 
         // PUT api/<TareaController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        //[HttpPut("{id}")]
+        //public void Put(int id, [FromBody] string value)
+        //{
+        //}
+
+        [HttpPut]
+        public void CheckTask([FromBody] TareaViewModel request)
         {
+            var tarea = new Tarea
+            {
+                TaskId = request.TaskId,
+                TaskName = request.TaskName,
+                Description = request.Description,
+                State = request.State
+            };
+
+            _tareaService.Update(tarea);
         }
     }
 }

@@ -60,7 +60,14 @@ namespace DataAccess.Repository
 
         public IEnumerable<Tarea> Get()
         {
-            return _context.Tarea;
+            try
+            {
+                return _context.Tarea;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
 
         public void Update(Tarea tarea)

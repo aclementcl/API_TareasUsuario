@@ -21,21 +21,26 @@ namespace WebAPI.Controllers
         {
             _usuarioService = usuarioService;
         }
-        // GET: api/<UsuarioController>
-        [HttpGet]
-        public IActionResult Get()
-        {
-            var entity =  _usuarioService.Get();
-            return Ok(entity);
-        }
+        //[HttpGet]
+        //public IActionResult Get()
+        //{
+        //    var entity =  _usuarioService.Get();
+        //    if (entity.Count() > 0)
+        //    {
+        //        return Ok(entity);
+        //    }
+        //    else
+        //    {
+        //        return NotFound("No existen usuarios en BD");
+        //    }
+        //}
 
-        // GET api/<UsuarioController>/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
-        {
-            var entity = await _usuarioService.Get(id);
-            return Ok(entity);
-        }
+        //[HttpGet("{id}")]
+        //public async Task<IActionResult> Get(int id)
+        //{
+        //    var entity = await _usuarioService.Get(id);
+        //    return Ok(entity);
+        //}
 
         [HttpPost("{userName}/{password}")]
         public async Task<string> Login(string userName, string password)
@@ -54,9 +59,8 @@ namespace WebAPI.Controllers
 
         }
 
-        // POST api/<UsuarioController>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] UsuarioViewModel request)
+        public async Task<IActionResult> InsertUser([FromBody] UsuarioViewModel request)
         {
             Usuario usuario = new Usuario
             {
@@ -76,28 +80,6 @@ namespace WebAPI.Controllers
             {
                 return NotFound("No se pudo crear el usuario");
             }
-
-        }
-
-        [HttpPut]
-        public void Put([FromBody] UsuarioViewModel request)
-        {
-            var usuario = new Usuario
-            {
-                ID = request.ID,
-                UserName = request.UserName,
-                Password = request.Password,
-                Name = request.Name
-            };
-
-            _usuarioService.Update(usuario);
-        }
-
-        // DELETE api/<UsuarioController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-            _usuarioService.Delete(id);
         }
     }
 }
