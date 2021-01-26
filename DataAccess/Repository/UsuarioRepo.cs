@@ -2,6 +2,7 @@
 using DataAccess.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,6 +15,7 @@ namespace DataAccess.Repository
         Task<bool> Add(Usuario usuario);
         void Update(Usuario usuario);
         Task<bool> Delete(int id);
+        Task<bool> Login(string userName, string password);
     }
     public class UsuarioRepo: IUsuarioRepo
     {
@@ -79,6 +81,27 @@ namespace DataAccess.Repository
                 return false;
             }
 
+        }
+
+        public async Task<bool> Login(string userName, string password)
+        {
+            try
+            {
+                int coincidence = _context.Usuario.Where(x => x.UserName == userName && x.Password == password).Count();
+                if (coincidence > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch(Exception e)
+            {
+                return false;
+            }
+            
         }
     }
 }

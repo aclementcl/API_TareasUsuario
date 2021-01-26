@@ -37,6 +37,23 @@ namespace WebAPI.Controllers
             return Ok(entity);
         }
 
+        [HttpPost("{userName}/{password}")]
+        public async Task<string> Login(string userName, string password)
+        {
+            bool validCredentials = await _usuarioService.Login(userName, password);
+            string message;
+            if (validCredentials)
+            {
+                message = "Usuario autentificado correctamente";
+            }
+            else
+            {
+                message = "El nombre de usuario o la contraseña es incorrecta";
+            }
+            return message;
+
+        }
+
         // POST api/<UsuarioController>
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] UsuarioViewModel request)

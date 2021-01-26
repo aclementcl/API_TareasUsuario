@@ -15,6 +15,7 @@ namespace Application.Services
         Task<bool> Add(Usuario usuario);
         Task Update(Usuario usuario);
         Task<bool> Delete(int id);
+        Task<bool> Login(string userName, string password);
     }
     public class UsuarioService: IUsuarioService
     {
@@ -58,6 +59,11 @@ namespace Application.Services
             var entity = await _usuarioRepo.Get(id);
 
             return UsuarioModelMapper.MapToView(entity);
+        }
+
+        public async Task<bool> Login(string userName, string password)
+        {
+            return await _usuarioRepo.Login(userName, password);
         }
 
         public async Task Update(Usuario usuario)
