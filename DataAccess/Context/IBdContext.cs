@@ -14,6 +14,7 @@ namespace DataAccess.Context
     {
         DbSet<Usuario> Usuario { get; set; }
         DbSet<Tarea> Tarea { get; set; }
+        DbSet<TareaUsuario> TareaUsuario { get; set; }
         DbSet<TEntity> Set<TEntity>() where TEntity : class;
         DatabaseFacade Database { get; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));

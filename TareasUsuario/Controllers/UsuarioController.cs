@@ -66,15 +66,15 @@ namespace WebAPI.Controllers
                 Name = request.Name
             };
 
-            bool guardado = await _usuarioService.Add(usuario);
+            bool save = await _usuarioService.Add(usuario);
 
-            if (guardado)
+            if (save)
             {
-                return Ok("Guardado exitoso");
+                return Ok("Usuario creado");
             }
             else
             {
-                return NotFound();
+                return NotFound("No se pudo crear el usuario");
             }
 
         }

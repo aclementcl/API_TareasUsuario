@@ -40,7 +40,8 @@ namespace WebAPI.Controllers
         {
             Tarea tarea = new Tarea
             {
-                ID = request.ID,
+                TaskId = request.TaskId,
+                UserId = request.UserId,
                 TaskName = request.TaskName,
                 State = request.State,
                 Description = request.Description
@@ -50,11 +51,11 @@ namespace WebAPI.Controllers
 
             if (save)
             {
-                return Ok("Guardado exitoso");
+                return Ok("Tarea agregada");
             }
             else
             {
-                return NotFound();
+                return NotFound("No se pudo agregar tarea");
             }
 
         }

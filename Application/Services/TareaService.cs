@@ -18,25 +18,35 @@ namespace Application.Services
     }
     public class TareaService: ITareaService
     {
-        private readonly IUsuarioRepo _usuarioRepo;
-        public TareaService(IUsuarioRepo modelItemRepository)
+        private readonly ITareaRepo _tareaRepo;
+        public TareaService(ITareaRepo tareaRepo)
         {
-            _usuarioRepo = modelItemRepository;
+            _tareaRepo = tareaRepo;
         }
 
         public async Task<bool> Add(Tarea tarea)
         {
-            return true;//await _usuarioRepo.Add(TareaModelMapper.MapToData(tarea));
+            int tareaId = await _tareaRepo.Add(TareaModelMapper.MapToData(tarea));
+
+            //Agrega relación entre las tablas Tarea y Usuario
+            bool result = false;
+
+            if (tareaId > 0)
+            {
+                result = await _tareaRepo.AddRelationTaskUser(tareaId, tarea.UserId);
+            }
+            return result;
+
         }
 
         public Task<bool> Delete(int id)
         {
-            return _usuarioRepo.Delete(id);
+            return _tareaRepo.Delete(id);
         }
 
         public List<Tarea> Get()
         {
-            var entity = _usuarioRepo.Get();
+            var entity = _tareaRepo.Get();
 
             //List<Usuario> listUsuario = new List<Usuario>();
             //Usuario usuario = new Usuario();
@@ -55,7 +65,7 @@ namespace Application.Services
 
         public async Task<Tarea> Get(int id)
         {
-            var entity = await _usuarioRepo.Get(id);
+            var entity = await _tareaRepo.Get(id);
 
             return null;//UsuarioModelMapper.MapToView(entity);
         }

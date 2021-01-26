@@ -12,7 +12,8 @@ namespace DataAccess.Repository
     {
         IEnumerable<Tarea> Get();
         Task<Tarea> Get(int id);
-        Task<bool> Add(Tarea usuario);
+        Task<int> Add(Tarea usuario);
+        Task<bool> AddRelationTaskUser(int taskId, int userId);
         void Update(Tarea usuario);
         Task<bool> Delete(int id);
     }
@@ -25,11 +26,31 @@ namespace DataAccess.Repository
             _context = context;
         }
 
-        public async Task<bool> Add(Tarea tarea)
+        public async Task<int> Add(Tarea tarea)
         {
             try
             {
                 await _context.Tarea.AddAsync(tarea);
+                await _context.SaveChangesAsync();
+                int tareaId = tarea.ID;
+                return tareaId;
+            }
+            catch(Exception e)
+            {
+                return 0;
+            }
+            
+        }
+
+        public async Task<bool> AddRelationTaskUser(int taskId, int userId)
+        {
+            try
+            {
+                TareaUsuario tareaUsuario = new TareaUsuario();
+                tareaUsuario.ID_Task = taskId;
+                tareaUsuario.ID_User = userId;
+
+                await _context.TareaUsuario.AddAsync(tareaUsuario);
                 await _context.SaveChangesAsync();
                 return true;
             }
@@ -37,7 +58,6 @@ namespace DataAccess.Repository
             {
                 return false;
             }
-            
         }
 
         public IEnumerable<Tarea> Get()

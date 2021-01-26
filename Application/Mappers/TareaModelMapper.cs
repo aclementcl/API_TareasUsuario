@@ -11,7 +11,7 @@ namespace Application.Mappers
         {
             return new DataAccess.Entities.Tarea
             {
-                ID = tarea.ID,
+                ID = tarea.TaskId,
                 TaskName = tarea.TaskName,
                 State = tarea.State,
                 Description = tarea.Description
@@ -22,7 +22,7 @@ namespace Application.Mappers
         {
             return new Application.Models.Tarea
             {
-                ID = tarea.ID,
+                TaskId = tarea.ID,
                 TaskName = tarea.TaskName,
                 State = tarea.State,
                 Description = tarea.Description

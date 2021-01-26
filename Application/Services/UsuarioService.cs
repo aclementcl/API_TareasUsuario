@@ -20,9 +20,9 @@ namespace Application.Services
     public class UsuarioService: IUsuarioService
     {
         private readonly IUsuarioRepo _usuarioRepo;
-        public UsuarioService(IUsuarioRepo modelItemRepository)
+        public UsuarioService(IUsuarioRepo usuarioRepo)
         {
-            _usuarioRepo = modelItemRepository;
+            _usuarioRepo = usuarioRepo;
         }
 
         public async Task<bool> Add(Usuario usuario)
