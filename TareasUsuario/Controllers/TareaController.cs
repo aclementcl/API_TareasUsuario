@@ -23,16 +23,10 @@ namespace WebAPI.Controllers
         }
         // GET: api/<TareaController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get()
         {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/<TareaController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
+            var entity = _tareaService.Get().Select(p => new { p.TaskName, p.Description, p.State });
+            return Ok(entity);
         }
 
         [HttpPost]
@@ -63,12 +57,6 @@ namespace WebAPI.Controllers
         // PUT api/<TareaController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<TareaController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
         {
         }
     }

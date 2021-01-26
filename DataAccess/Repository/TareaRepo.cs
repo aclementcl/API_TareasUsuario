@@ -11,11 +11,9 @@ namespace DataAccess.Repository
     public interface ITareaRepo
     {
         IEnumerable<Tarea> Get();
-        Task<Tarea> Get(int id);
         Task<int> Add(Tarea usuario);
         Task<bool> AddRelationTaskUser(int taskId, int userId);
         void Update(Tarea usuario);
-        Task<bool> Delete(int id);
     }
     public class TareaRepo : ITareaRepo
     {
@@ -62,35 +60,13 @@ namespace DataAccess.Repository
 
         public IEnumerable<Tarea> Get()
         {
-            return null;// _context.Usuario;
+            return _context.Tarea;
         }
-
-        public async Task<Tarea> Get(int id)
-        {
-            return null;
-        }
-        
 
         public void Update(Tarea tarea)
         {
             _context.Tarea.Update(tarea);
             _context.SaveChanges();
-        }
-
-        public async Task<bool> Delete(int id)
-        {
-            try
-            {
-                //var entity = await _context.Usuario.FindAsync(id);
-                var entity = Get(id);
-                //_context.Usuario.Remove(entity);
-                return true;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
-
         }
     }
 }
