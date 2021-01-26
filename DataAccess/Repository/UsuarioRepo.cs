@@ -48,7 +48,9 @@ namespace DataAccess.Repository
         {
             try
             {
-                return await _context.Usuario.FindAsync(id);
+                var entity = await _context.Usuario.FindAsync(id);
+                entity.Password = "*******";
+                return entity;
             }
             catch (Exception e)
             {
