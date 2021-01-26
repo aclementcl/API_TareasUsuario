@@ -15,6 +15,7 @@ namespace DataAccess.Context
         }
 
         public DbSet<Usuario> Usuario { get; set; }
+        public DbSet<Tarea> Tarea { get; set; }
 
         public int SaveChanges(CancellationToken cancellationToken = default)
         {

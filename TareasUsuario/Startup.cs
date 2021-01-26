@@ -43,7 +43,9 @@ namespace TareasUsuario
             services.AddDbContext<BdContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddTransient<IBdContext, BdContext>();
             services.AddTransient<IUsuarioRepo, UsuarioRepo>();
+            services.AddTransient<ITareaRepo, TareaRepo>();
             services.AddTransient<IUsuarioService, UsuarioService>();
+            services.AddTransient<ITareaService, TareaService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
