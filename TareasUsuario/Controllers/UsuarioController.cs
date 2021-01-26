@@ -21,25 +21,46 @@ namespace WebAPI.Controllers
         {
             _usuarioService = usuarioService;
         }
-        // GET: api/<UsuarioController>
-        [HttpGet]
-        public IActionResult Get()
+        //[HttpGet]
+        //public IActionResult Get()
+        //{
+        //    var entity =  _usuarioService.Get();
+        //    if (entity.Count() > 0)
+        //    {
+        //        return Ok(entity);
+        //    }
+        //    else
+        //    {
+        //        return NotFound("No existen usuarios en BD");
+        //    }
+        //}
+
+        //[HttpGet("{id}")]
+        //public async Task<IActionResult> Get(int id)
+        //{
+        //    var entity = await _usuarioService.Get(id);
+        //    return Ok(entity);
+        //}
+
+        [HttpPost("{userName}/{password}")]
+        public async Task<string> Login(string userName, string password)
         {
-            var entity =  _usuarioService.Get();
-            return Ok(entity);
+            bool validCredentials = await _usuarioService.Login(userName, password);
+            string message;
+            if (validCredentials)
+            {
+                message = "Usuario autentificado correctamente";
+            }
+            else
+            {
+                message = "El nombre de usuario o la contraseña es incorrecta";
+            }
+            return message;
+
         }
 
-        // GET api/<UsuarioController>/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
-        {
-            var entity = await _usuarioService.Get(id);
-            return Ok(entity);
-        }
-
-        // POST api/<UsuarioController>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] UsuarioViewModel request)
+        public async Task<IActionResult> InsertUser([FromBody] UsuarioViewModel request)
         {
             Usuario usuario = new Usuario
             {
@@ -49,38 +70,16 @@ namespace WebAPI.Controllers
                 Name = request.Name
             };
 
-            bool guardado = await _usuarioService.Add(usuario);
+            bool save = await _usuarioService.Add(usuario);
 
-            if (guardado)
+            if (save)
             {
-                return Ok("Guardado exitoso");
+                return Ok("Usuario creado");
             }
             else
             {
-                return NotFound();
+                return NotFound("No se pudo crear el usuario");
             }
-
-        }
-
-        [HttpPut]
-        public void Put([FromBody] UsuarioViewModel request)
-        {
-            var usuario = new Usuario
-            {
-                ID = request.ID,
-                UserName = request.UserName,
-                Password = request.Password,
-                Name = request.Name
-            };
-
-            _usuarioService.Update(usuario);
-        }
-
-        // DELETE api/<UsuarioController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-            _usuarioService.Delete(id);
         }
     }
 }

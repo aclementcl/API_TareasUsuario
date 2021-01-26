@@ -13,25 +13,19 @@ namespace Application.Services
         List<Usuario> Get();
         Task<Usuario> Get(int id);
         Task<bool> Add(Usuario usuario);
-        Task Update(Usuario usuario);
-        Task<bool> Delete(int id);
+        Task<bool> Login(string userName, string password);
     }
     public class UsuarioService: IUsuarioService
     {
         private readonly IUsuarioRepo _usuarioRepo;
-        public UsuarioService(IUsuarioRepo modelItemRepository)
+        public UsuarioService(IUsuarioRepo usuarioRepo)
         {
-            _usuarioRepo = modelItemRepository;
+            _usuarioRepo = usuarioRepo;
         }
 
         public async Task<bool> Add(Usuario usuario)
         {
             return await _usuarioRepo.Add(UsuarioModelMapper.MapToData(usuario));
-        }
-
-        public Task<bool> Delete(int id)
-        {
-            return _usuarioRepo.Delete(id);
         }
 
         public List<Usuario> Get()
@@ -60,11 +54,9 @@ namespace Application.Services
             return UsuarioModelMapper.MapToView(entity);
         }
 
-        public async Task Update(Usuario usuario)
+        public async Task<bool> Login(string userName, string password)
         {
-            _usuarioRepo.Update(UsuarioModelMapper.MapToData(usuario));
+            return await _usuarioRepo.Login(userName, password);
         }
-
-
     }
 }

@@ -1,0 +1,49 @@
+﻿
+IF NOT EXISTS(SELECT * FROM sys.databases WHERE name = 'TareasUsuario')
+BEGIN
+	CREATE DATABASE TareasUsuario
+END
+GO
+
+USE TareasUsuario
+GO
+
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='Usuario')
+BEGIN
+	CREATE TABLE Usuario (
+		ID INT NOT NULL IDENTITY(1,1),
+		UserName NVARCHAR(20) UNIQUE NOT NULL,
+		Password NVARCHAR(20) NOT NULL,
+		Name NVARCHAR(20) NOT NULL,
+		PRIMARY KEY (ID)
+	);
+END
+
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='Tarea')
+BEGIN
+	CREATE TABLE Tarea (
+		ID INT NOT NULL IDENTITY(1,1),
+		TaskName NVARCHAR(20) NOT NULL,
+		State NVARCHAR(20) NOT NULL,
+		Description NVARCHAR(20) NOT NULL,
+		PRIMARY KEY (ID)
+	);
+END
+
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='TareaUsuario')
+BEGIN
+	CREATE TABLE TareaUsuario (
+		ID INT NOT NULL IDENTITY(1,1),
+		ID_User INT NOT NULL,
+		ID_Task INT NOT NULL,
+		PRIMARY KEY (ID)
+	);
+
+	ALTER TABLE TareaUsuario
+	   ADD CONSTRAINT FK_Task FOREIGN KEY (ID_Task)
+		  REFERENCES Tarea (ID)
+
+	ALTER TABLE TareaUsuario
+	   ADD CONSTRAINT FK_User FOREIGN KEY (ID_User)
+		  REFERENCES Usuario (ID)
+END

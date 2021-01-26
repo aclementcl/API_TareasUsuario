@@ -2,3 +2,5 @@
 
 *.sln
 *.vs
+bin/
+obj/
