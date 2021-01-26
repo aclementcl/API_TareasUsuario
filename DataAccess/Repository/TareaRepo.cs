@@ -13,7 +13,7 @@ namespace DataAccess.Repository
         IEnumerable<Tarea> Get();
         Task<int> Add(Tarea usuario);
         Task<bool> AddRelationTaskUser(int taskId, int userId);
-        void Update(Tarea usuario);
+        bool Update(Tarea usuario);
     }
     public class TareaRepo : ITareaRepo
     {
@@ -70,10 +70,18 @@ namespace DataAccess.Repository
             }
         }
 
-        public void Update(Tarea tarea)
+        public bool Update(Tarea tarea)
         {
-            _context.Tarea.Update(tarea);
-            _context.SaveChanges();
+            try
+            {
+                _context.Tarea.Update(tarea);
+                _context.SaveChangesAsync();
+                return true;
+            }catch(Exception e)
+            {
+                return false;
+            }
+            
         }
     }
 }

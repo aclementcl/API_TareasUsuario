@@ -10,7 +10,7 @@ namespace WebAPI.ViewModel
         public int TaskId { get; set; }
         public int UserId { get; set; }
         public string TaskName { get; set; }
-        public string State { get; set; }
+        public bool State { get; set; }
         public string Description { get; set; }
     }
 }

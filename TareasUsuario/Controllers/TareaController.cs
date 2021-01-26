@@ -44,7 +44,7 @@ namespace WebAPI.Controllers
                 TaskId = request.TaskId,
                 UserId = request.UserId,
                 TaskName = request.TaskName,
-                State = request.State,
+                State = request.State == true ? "Resuelto" : "No Resuelto",
                 Description = request.Description
             };
 
@@ -61,24 +61,27 @@ namespace WebAPI.Controllers
 
         }
 
-        // PUT api/<TareaController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
-
         [HttpPut]
-        public void CheckTask([FromBody] TareaViewModel request)
+        public IActionResult CheckTask([FromBody] TareaViewModel request)
         {
             var tarea = new Tarea
             {
                 TaskId = request.TaskId,
                 TaskName = request.TaskName,
                 Description = request.Description,
-                State = request.State
+                State = request.State == true ? "Resuelto" : "No Resuelto"
             };
 
-            _tareaService.Update(tarea);
+            bool result = _tareaService.Update(tarea);
+
+            if (result)
+            {
+                return Ok("Tarea actualizada");
+            }
+            else
+            {
+                return NotFound("La tarea no se pudo actualizar");
+            }
         }
     }
 }

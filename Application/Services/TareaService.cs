@@ -13,7 +13,7 @@ namespace Application.Services
     {
         List<Tarea> Get();
         Task<bool> Add(Tarea tarea);
-        Task Update(Tarea tarea);
+        bool Update(Tarea tarea);
     }
     public class TareaService: ITareaService
     {
@@ -56,9 +56,10 @@ namespace Application.Services
             return listTarea;
         }
 
-        public async Task Update(Tarea tarea)
+        public bool Update(Tarea tarea)
         {
-            _tareaRepo.Update(TareaModelMapper.MapToData(tarea));
+            bool result = _tareaRepo.Update(TareaModelMapper.MapToData(tarea));
+            return result;
         }
 
 
